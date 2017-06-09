@@ -15,6 +15,10 @@ PORT = int(os.getenv('PORT', 8000))
 # os.chdir('static')
 app = Flask(__name__)
 
+@app.route('/cloud_storage')
+def cloud_storage():
+    return render_template('cloud_storage.html')
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -26,6 +30,18 @@ def shutdown():
     #     client.disconnect()
 
 if __name__ == '__main__':
+    res = os.path.isfile('vcap-local.json')
+
+    if res:
+        with open('vcap-local.json') as f:
+            objectstorage_creds = json.load(f)
+            auth_url = objectstorage_creds['auth_url'] + '/v3'  #authorization URL
+            password = objectstorage_creds['password'] #password
+            project_id = objectstorage_creds['projectId'] #project id
+            user_id = objectstorage_creds['userId'] #user id 
+            region_name = objectstorage_creds['region'] #region name 
+    else:
+        print("no credential files")
     app.run(host='0.0.0.0', port=PORT, debug=True)
 
 # httpd = Server(("", PORT), Handler)
