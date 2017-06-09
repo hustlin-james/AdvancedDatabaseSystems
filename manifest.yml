@@ -1,0 +1,12 @@
+applications:
+- path: .
+  memory: 128M
+  instances: 1
+  domain: mybluemix.net
+  name: advanced-db-systems
+  host: advanced-db-systems
+  disk_quota: 1024M
+  services:
+  - availability-monitoring-auto
+  - Object Storage-xb
+  - ClearDB Managed MySQL Database-pd
